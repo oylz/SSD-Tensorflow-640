@@ -16,7 +16,7 @@ import matplotlib.image as mpimg
 import sys
 sys.path.append('../')
 
-from nets import ssd_vgg_640, ssd_common, np_methods
+from nets import ssd_vgg_640, np_methods
 from preprocessing import ssd_vgg_preprocessing
 #from notebooks import visualization
 import cv2
@@ -74,17 +74,29 @@ ssd_anchors = ssd_net.anchors(net_shape)
 # Main image processing routine.
 def process_image(img, select_threshold=0.5, nms_threshold=.45, net_shape=(640, 640)):
     # Run SSD network.
-    rimg, rpredictions, rlocalisations, rbbox_img = isess.run([image_4d, predictions, localisations, bbox_img],
-                                                              feed_dict={img_input: img})
+    rimg, rpredictions, rlocalisations, rbbox_img = isess.run(
+                            [image_4d, predictions, localisations, bbox_img],
+                            feed_dict={img_input: img})
     
-    # Get classes and bboxes from the net outputs.
-    rclasses, rscores, rbboxes = np_methods.ssd_bboxes_select(
-            rpredictions, rlocalisations, ssd_anchors,
-            select_threshold=select_threshold, img_shape=net_shape, num_classes=2, decode=True)
+    # TreateBoxes
+    rclasses, rscores, rbboxes = np_methods.TreateBoxes(
+                       rpredictions, 
+                       rlocalisations, 
+                       ssd_anchors,
+                       select_threshold=select_threshold, 
+                       img_shape=net_shape, 
+                       num_classes=2, 
+                       decode=True)
     
     rbboxes = np_methods.bboxes_clip(rbbox_img, rbboxes)
-    rclasses, rscores, rbboxes = np_methods.bboxes_sort(rclasses, rscores, rbboxes, top_k=400)
-    rclasses, rscores, rbboxes = np_methods.bboxes_nms(rclasses, rscores, rbboxes, nms_threshold=nms_threshold)
+    rclasses, rscores, rbboxes = np_methods.bboxes_sort(rclasses, 
+                                            rscores, 
+                                            rbboxes, 
+                                            top_k=400)
+    rclasses, rscores, rbboxes = np_methods.bboxes_nms(rclasses, 
+                                            rscores, 
+                                            rbboxes, 
+                                            nms_threshold=nms_threshold)
     # Resize bboxes to original image shape. Note: useless for Resize.WARP!
     rbboxes = np_methods.bboxes_resize(rbbox_img, rbboxes)
     return rclasses, rscores, rbboxes

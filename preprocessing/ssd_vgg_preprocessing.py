@@ -23,7 +23,6 @@ import tf_extended as tfe
 from tensorflow.python.ops import control_flow_ops
 
 from preprocessing import tf_image
-from nets import ssd_common
 
 slim = tf.contrib.slim
 

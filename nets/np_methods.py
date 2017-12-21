@@ -1,27 +1,9 @@
-# Copyright 2017 Paul Balanca. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ==============================================================================
-"""Additional Numpy methods. Big mess of many things!
-"""
+
 import numpy as np
 
 
-# =========================================================================== #
-# Numpy implementations of SSD boxes functions.
-# =========================================================================== #
 def ssd_bboxes_decode(feat_localizations,
-                      anchor_bboxes,
+                      anchors_layer,
                       prior_scaling=[0.1, 0.1, 0.2, 0.2]):
     """Compute the relative bounding boxes from the layer features and
     reference anchor bounding boxes.
@@ -31,18 +13,15 @@ def ssd_bboxes_decode(feat_localizations,
     """
     # Reshape for easier broadcasting.
     l_shape = feat_localizations.shape
-    print("l_shape[")
-    print(l_shape)
-    print("]l_shape")
+    print("l_shape[", l_shape, "]l_shape")
 
     feat_localizations = np.reshape(feat_localizations,
                                     (-1, l_shape[-2], l_shape[-1]))
-    print("feat_localizations new shape:")
-    print(feat_localizations.shape)
+    print("feat_localizations new shape:", feat_localizations.shape)
+    print("anchors_layer", anchors_layer)
 
-    print("anchor_bboxes")
-    print(anchor_bboxes)
-    yref, xref, href, wref = anchor_bboxes
+
+    yref, xref, href, wref = anchors_layer
     xref = np.reshape(xref, [-1, 1])
     yref = np.reshape(yref, [-1, 1])
 
@@ -51,31 +30,22 @@ def ssd_bboxes_decode(feat_localizations,
     cy = feat_localizations[:, :, 1] * href * prior_scaling[1] + yref
     w = wref * np.exp(feat_localizations[:, :, 2] * prior_scaling[2])
     h = href * np.exp(feat_localizations[:, :, 3] * prior_scaling[3])
-    print("cx,cy,w,h[")
-    print(cx.shape)
-    print(cx)
-    print("---------")
-    print(cy.shape)
-    print(cy)
-    print("---------")
-    print(w.shape)
-    print(w)
-    print("---------")
-    print(h.shape)
-    print(h)
-    print("---------")
+    print("cx[", cx.shape, cx, "]")
+    print("cy[", cy.shape, cy, "]")
+    print("w[", w.shape, w, "]")
+    print("h[", h.shape, h, "]")
     # bboxes: ymin, xmin, xmax, ymax.
     bboxes = np.zeros_like(feat_localizations)
-    bboxes[:, :, 0] = (cy - h / 2.) #[:, -1].transpose()
-    bboxes[:, :, 1] = (cx - w / 2.) #[:, -1].transpose()
-    bboxes[:, :, 2] = (cy + h / 2.) #[:, -1].transpose()
-    bboxes[:, :, 3] = (cx + w / 2.) #[:, -1].transpose()
+    bboxes[:, :, 0] = (cy - h / 2.) 
+    bboxes[:, :, 1] = (cx - w / 2.)
+    bboxes[:, :, 2] = (cy + h / 2.)
+    bboxes[:, :, 3] = (cx + w / 2.)
     # Back to original shape.
     bboxes = np.reshape(bboxes, l_shape)
     return bboxes
 
 
-def ssd_bboxes_select_layer(predictions_layer,
+def TreateBoxesCore(predictions_layer,
                             localizations_layer,
                             anchors_layer,
                             select_threshold,
@@ -90,9 +60,9 @@ def ssd_bboxes_select_layer(predictions_layer,
     # First decode localizations features if necessary.
     if decode:
         localizations_layer = ssd_bboxes_decode(localizations_layer, anchors_layer)
-    print("predictions_layer first shape:")
+
     ps = predictions_layer.shape
-    print(ps)
+    print("predictions_layer first shape:", ps)
 
     # Reshape features to: Batches x N x N_labels | 4.
     p_shape = predictions_layer.shape
@@ -108,8 +78,7 @@ def ssd_bboxes_select_layer(predictions_layer,
     localizations_layer = np.reshape(localizations_layer,
                                      (batch_size, -1, l_shape[-1]))
 
-    print("predictions_layer first second:")
-    print(predictions_layer.shape)
+    print("predictions_layer second shape:", predictions_layer.shape)
 
 
     # Boxes selection: use threshold or score > no-label criteria.
@@ -131,7 +100,7 @@ def ssd_bboxes_select_layer(predictions_layer,
     return classes, scores, bboxes
 
 
-def ssd_bboxes_select(predictions_net,
+def TreateBoxes(predictions_net,
                       localizations_net,
                       anchors_net,
                       select_threshold=0.5,
@@ -146,12 +115,16 @@ def ssd_bboxes_select(predictions_net,
     l_classes = []
     l_scores = []
     l_bboxes = []
-    # l_layers = []
-    # l_idxes = []
+    print("predictions_net len:", len(predictions_net))
     for i in range(len(predictions_net)):
-        classes, scores, bboxes = ssd_bboxes_select_layer(
-            predictions_net[i], localizations_net[i], anchors_net[i],
-            select_threshold, img_shape, num_classes, decode)
+        classes, scores, bboxes = TreateBoxesCore(
+                        predictions_net[i], 
+                        localizations_net[i], 
+                        anchors_net[i],
+                        select_threshold, 
+                        img_shape, 
+                        num_classes, 
+                        decode)
         l_classes.append(classes)
         l_scores.append(scores)
         l_bboxes.append(bboxes)
