@@ -1,0 +1,179 @@
+WARNING:tensorflow:From caffe_to_tensorflow.py:37: create_global_step (from tensorflow.contrib.framework.python.ops.variables) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please switch to tf.train.create_global_step
+('Loading Caffe file:', './tmp/VGG_coco_SSD_300x300.caffemodel')
+nnnn-block1 begin
+('Convert BGR to RGB in convolution layer:', u'conv1_1')
+('Load weights from convolution layer:', u'conv1_1', (3, 3, 3, 64))
+('Load biases from convolution layer:', u'conv1_1', (64,))
+('Load weights from convolution layer:', u'conv1_2', (3, 3, 64, 64))
+('Load biases from convolution layer:', u'conv1_2', (64,))
+uuuu-block1 end
+nnnn-block2 begin
+('Load weights from convolution layer:', u'conv2_1', (3, 3, 64, 128))
+('Load biases from convolution layer:', u'conv2_1', (128,))
+('Load weights from convolution layer:', u'conv2_2', (3, 3, 128, 128))
+('Load biases from convolution layer:', u'conv2_2', (128,))
+uuuu-block2 end
+nnnn-block3 begin
+('Load weights from convolution layer:', u'conv3_1', (3, 3, 128, 256))
+('Load biases from convolution layer:', u'conv3_1', (256,))
+('Load weights from convolution layer:', u'conv3_2', (3, 3, 256, 256))
+('Load biases from convolution layer:', u'conv3_2', (256,))
+('Load weights from convolution layer:', u'conv3_3', (3, 3, 256, 256))
+('Load biases from convolution layer:', u'conv3_3', (256,))
+uuuu-block3 end
+nnnn-block4 begin
+('Load weights from convolution layer:', u'conv4_1', (3, 3, 256, 512))
+('Load biases from convolution layer:', u'conv4_1', (512,))
+('Load weights from convolution layer:', u'conv4_2', (3, 3, 512, 512))
+('Load biases from convolution layer:', u'conv4_2', (512,))
+('Load weights from convolution layer:', u'conv4_3', (3, 3, 512, 512))
+('Load biases from convolution layer:', u'conv4_3', (512,))
+uuuu-block4 end
+nnnn-block5 begin
+('Load weights from convolution layer:', u'conv5_1', (3, 3, 512, 512))
+('Load biases from convolution layer:', u'conv5_1', (512,))
+('Load weights from convolution layer:', u'conv5_2', (3, 3, 512, 512))
+('Load biases from convolution layer:', u'conv5_2', (512,))
+('Load weights from convolution layer:', u'conv5_3', (3, 3, 512, 512))
+('Load biases from convolution layer:', u'conv5_3', (512,))
+uuuu-block5 end
+nnnn-block6 begin
+('Load weights from convolution layer:', u'fc6', (3, 3, 512, 1024))
+('Load biases from convolution layer:', u'fc6', (1024,))
+uuuu-block6 end
+nnnn-block7 begin
+('Load weights from convolution layer:', u'fc7', (1, 1, 1024, 1024))
+('Load biases from convolution layer:', u'fc7', (1024,))
+uuuu-block7 end
+nnnn-block8 begin
+('Load weights from convolution layer:', u'conv6_1', (1, 1, 1024, 256))
+('Load biases from convolution layer:', u'conv6_1', (256,))
+('Load weights from convolution layer:', u'conv6_2', (3, 3, 256, 512))
+('Load biases from convolution layer:', u'conv6_2', (512,))
+uuuu-block8 end
+nnnn-block9 begin
+('Load weights from convolution layer:', u'conv7_1', (1, 1, 512, 128))
+('Load biases from convolution layer:', u'conv7_1', (128,))
+('Load weights from convolution layer:', u'conv7_2', (3, 3, 128, 256))
+('Load biases from convolution layer:', u'conv7_2', (256,))
+uuuu-block9 end
+nnnn-block10 begin
+('Load weights from convolution layer:', u'conv8_1', (1, 1, 256, 128))
+('Load biases from convolution layer:', u'conv8_1', (128,))
+('Load weights from convolution layer:', u'conv8_2', (3, 3, 128, 256))
+('Load biases from convolution layer:', u'conv8_2', (256,))
+uuuu-block10 end
+nnnn-block11 begin
+('Load weights from convolution layer:', u'conv9_1', (1, 1, 256, 128))
+('Load biases from convolution layer:', u'conv9_1', (128,))
+('Load weights from convolution layer:', u'conv9_2', (3, 3, 128, 256))
+('Load biases from convolution layer:', u'conv9_2', (256,))
+uuuu-block11 end
+final begin
+nnnn-begin process----block4_box
+('Load scaling from L2 normalization layer:', u'conv4_3_norm', (512,))
+nnnn------------begin ssd_multibox_layer----------nnnn
+16
+('Load weights from convolution layer:', u'conv4_3_norm_mbox_loc', (3, 3, 512, 16))
+('Load biases from convolution layer:', u'conv4_3_norm_mbox_loc', (16,))
+('====loc_pred0:', <tf.Tensor 'ssd_300_vgg/block4_box/conv_loc/BiasAdd:0' shape=(1, 38, 38, 16) dtype=float32>)
+('====loc_pred1:', <tf.Tensor 'ssd_300_vgg/block4_box/conv_loc/BiasAdd:0' shape=(1, 38, 38, 16) dtype=float32>)
+('====loc_pred2:', <tf.Tensor 'ssd_300_vgg/block4_box/Reshape:0' shape=(1, 38, 38, 4, 4) dtype=float32>)
+('Load weights from convolution layer:', u'conv4_3_norm_mbox_conf', (3, 3, 512, 84))
+('Load biases from convolution layer:', u'conv4_3_norm_mbox_conf', (84,))
+('====num_cls_pred:', 84, ', cls_pred0:', <tf.Tensor 'ssd_300_vgg/block4_box/conv_cls/BiasAdd:0' shape=(1, 38, 38, 84) dtype=float32>)
+('====cls_pred1:', <tf.Tensor 'ssd_300_vgg/block4_box/conv_cls/BiasAdd:0' shape=(1, 38, 38, 84) dtype=float32>)
+('====tt:', [1, 38, 38, 84])
+('====cls_pred2:', <tf.Tensor 'ssd_300_vgg/block4_box/Reshape_1:0' shape=(1, 38, 38, 4, 21) dtype=float32>)
+uuuu------------end   ssd_multibox_layer----------uuuu
+uuuu-end process----block4_box
+nnnn-begin process----block7_box
+nnnn------------begin ssd_multibox_layer----------nnnn
+24
+('Load weights from convolution layer:', u'fc7_mbox_loc', (3, 3, 1024, 24))
+('Load biases from convolution layer:', u'fc7_mbox_loc', (24,))
+('====loc_pred0:', <tf.Tensor 'ssd_300_vgg/block7_box/conv_loc/BiasAdd:0' shape=(1, 19, 19, 24) dtype=float32>)
+('====loc_pred1:', <tf.Tensor 'ssd_300_vgg/block7_box/conv_loc/BiasAdd:0' shape=(1, 19, 19, 24) dtype=float32>)
+('====loc_pred2:', <tf.Tensor 'ssd_300_vgg/block7_box/Reshape:0' shape=(1, 19, 19, 6, 4) dtype=float32>)
+('Load weights from convolution layer:', u'fc7_mbox_conf', (3, 3, 1024, 126))
+('Load biases from convolution layer:', u'fc7_mbox_conf', (126,))
+('====num_cls_pred:', 126, ', cls_pred0:', <tf.Tensor 'ssd_300_vgg/block7_box/conv_cls/BiasAdd:0' shape=(1, 19, 19, 126) dtype=float32>)
+('====cls_pred1:', <tf.Tensor 'ssd_300_vgg/block7_box/conv_cls/BiasAdd:0' shape=(1, 19, 19, 126) dtype=float32>)
+('====tt:', [1, 19, 19, 126])
+('====cls_pred2:', <tf.Tensor 'ssd_300_vgg/block7_box/Reshape_1:0' shape=(1, 19, 19, 6, 21) dtype=float32>)
+uuuu------------end   ssd_multibox_layer----------uuuu
+uuuu-end process----block7_box
+nnnn-begin process----block8_box
+nnnn------------begin ssd_multibox_layer----------nnnn
+24
+('Load weights from convolution layer:', u'conv6_2_mbox_loc', (3, 3, 512, 24))
+('Load biases from convolution layer:', u'conv6_2_mbox_loc', (24,))
+('====loc_pred0:', <tf.Tensor 'ssd_300_vgg/block8_box/conv_loc/BiasAdd:0' shape=(1, 10, 10, 24) dtype=float32>)
+('====loc_pred1:', <tf.Tensor 'ssd_300_vgg/block8_box/conv_loc/BiasAdd:0' shape=(1, 10, 10, 24) dtype=float32>)
+('====loc_pred2:', <tf.Tensor 'ssd_300_vgg/block8_box/Reshape:0' shape=(1, 10, 10, 6, 4) dtype=float32>)
+('Load weights from convolution layer:', u'conv6_2_mbox_conf', (3, 3, 512, 126))
+('Load biases from convolution layer:', u'conv6_2_mbox_conf', (126,))
+('====num_cls_pred:', 126, ', cls_pred0:', <tf.Tensor 'ssd_300_vgg/block8_box/conv_cls/BiasAdd:0' shape=(1, 10, 10, 126) dtype=float32>)
+('====cls_pred1:', <tf.Tensor 'ssd_300_vgg/block8_box/conv_cls/BiasAdd:0' shape=(1, 10, 10, 126) dtype=float32>)
+('====tt:', [1, 10, 10, 126])
+('====cls_pred2:', <tf.Tensor 'ssd_300_vgg/block8_box/Reshape_1:0' shape=(1, 10, 10, 6, 21) dtype=float32>)
+uuuu------------end   ssd_multibox_layer----------uuuu
+uuuu-end process----block8_box
+nnnn-begin process----block9_box
+nnnn------------begin ssd_multibox_layer----------nnnn
+24
+('Load weights from convolution layer:', u'conv7_2_mbox_loc', (3, 3, 256, 24))
+('Load biases from convolution layer:', u'conv7_2_mbox_loc', (24,))
+('====loc_pred0:', <tf.Tensor 'ssd_300_vgg/block9_box/conv_loc/BiasAdd:0' shape=(1, 5, 5, 24) dtype=float32>)
+('====loc_pred1:', <tf.Tensor 'ssd_300_vgg/block9_box/conv_loc/BiasAdd:0' shape=(1, 5, 5, 24) dtype=float32>)
+('====loc_pred2:', <tf.Tensor 'ssd_300_vgg/block9_box/Reshape:0' shape=(1, 5, 5, 6, 4) dtype=float32>)
+('Load weights from convolution layer:', u'conv7_2_mbox_conf', (3, 3, 256, 126))
+('Load biases from convolution layer:', u'conv7_2_mbox_conf', (126,))
+('====num_cls_pred:', 126, ', cls_pred0:', <tf.Tensor 'ssd_300_vgg/block9_box/conv_cls/BiasAdd:0' shape=(1, 5, 5, 126) dtype=float32>)
+('====cls_pred1:', <tf.Tensor 'ssd_300_vgg/block9_box/conv_cls/BiasAdd:0' shape=(1, 5, 5, 126) dtype=float32>)
+('====tt:', [1, 5, 5, 126])
+('====cls_pred2:', <tf.Tensor 'ssd_300_vgg/block9_bo2017-12-21 17:11:17.879832: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:892] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2017-12-21 17:11:17.880241: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1030] Found device 0 with properties: 
+name: GeForce GTX 960M major: 5 minor: 0 memoryClockRate(GHz): 1.176
+pciBusID: 0000:01:00.0
+totalMemory: 3.95GiB freeMemory: 3.91GiB
+2017-12-21 17:11:17.880262: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1120] Creating TensorFlow device (/device:GPU:0) -> (device: 0, name: GeForce GTX 960M, pci bus id: 0000:01:00.0, compute capability: 5.0)
+x/Reshape_1:0' shape=(1, 5, 5, 6, 21) dtype=float32>)
+uuuu------------end   ssd_multibox_layer----------uuuu
+uuuu-end process----block9_box
+nnnn-begin process----block10_box
+nnnn------------begin ssd_multibox_layer----------nnnn
+16
+('Load weights from convolution layer:', u'conv8_2_mbox_loc', (3, 3, 256, 16))
+('Load biases from convolution layer:', u'conv8_2_mbox_loc', (16,))
+('====loc_pred0:', <tf.Tensor 'ssd_300_vgg/block10_box/conv_loc/BiasAdd:0' shape=(1, 3, 3, 16) dtype=float32>)
+('====loc_pred1:', <tf.Tensor 'ssd_300_vgg/block10_box/conv_loc/BiasAdd:0' shape=(1, 3, 3, 16) dtype=float32>)
+('====loc_pred2:', <tf.Tensor 'ssd_300_vgg/block10_box/Reshape:0' shape=(1, 3, 3, 4, 4) dtype=float32>)
+('Load weights from convolution layer:', u'conv8_2_mbox_conf', (3, 3, 256, 84))
+('Load biases from convolution layer:', u'conv8_2_mbox_conf', (84,))
+('====num_cls_pred:', 84, ', cls_pred0:', <tf.Tensor 'ssd_300_vgg/block10_box/conv_cls/BiasAdd:0' shape=(1, 3, 3, 84) dtype=float32>)
+('====cls_pred1:', <tf.Tensor 'ssd_300_vgg/block10_box/conv_cls/BiasAdd:0' shape=(1, 3, 3, 84) dtype=float32>)
+('====tt:', [1, 3, 3, 84])
+('====cls_pred2:', <tf.Tensor 'ssd_300_vgg/block10_box/Reshape_1:0' shape=(1, 3, 3, 4, 21) dtype=float32>)
+uuuu------------end   ssd_multibox_layer----------uuuu
+uuuu-end process----block10_box
+nnnn-begin process----block11_box
+nnnn------------begin ssd_multibox_layer----------nnnn
+16
+('Load weights from convolution layer:', u'conv9_2_mbox_loc', (3, 3, 256, 16))
+('Load biases from convolution layer:', u'conv9_2_mbox_loc', (16,))
+('====loc_pred0:', <tf.Tensor 'ssd_300_vgg/block11_box/conv_loc/BiasAdd:0' shape=(1, 1, 1, 16) dtype=float32>)
+('====loc_pred1:', <tf.Tensor 'ssd_300_vgg/block11_box/conv_loc/BiasAdd:0' shape=(1, 1, 1, 16) dtype=float32>)
+('====loc_pred2:', <tf.Tensor 'ssd_300_vgg/block11_box/Reshape:0' shape=(1, 1, 1, 4, 4) dtype=float32>)
+('Load weights from convolution layer:', u'conv9_2_mbox_conf', (3, 3, 256, 84))
+('Load biases from convolution layer:', u'conv9_2_mbox_conf', (84,))
+('====num_cls_pred:', 84, ', cls_pred0:', <tf.Tensor 'ssd_300_vgg/block11_box/conv_cls/BiasAdd:0' shape=(1, 1, 1, 84) dtype=float32>)
+('====cls_pred1:', <tf.Tensor 'ssd_300_vgg/block11_box/conv_cls/BiasAdd:0' shape=(1, 1, 1, 84) dtype=float32>)
+('====tt:', [1, 1, 1, 84])
+('====cls_pred2:', <tf.Tensor 'ssd_300_vgg/block11_box/Reshape_1:0' shape=(1, 1, 1, 4, 21) dtype=float32>)
+uuuu------------end   ssd_multibox_layer----------uuuu
+uuuu-end process----block11_box
+[final end]
+('update_feat_shapes:', True)
