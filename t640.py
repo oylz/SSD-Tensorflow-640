@@ -17,13 +17,20 @@ import sys
 sys.path.append('../')
 
 from nets import ssd_vgg_640, np_methods
-from util import ssd_vgg_preprocessing
+from util import getter 
 import cv2
 import random
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import matplotlib.cm as mpcm
+
+
+
+
+
+
+
 
 
 # TensorFlow session: grow memory when needed. TF, DO NOT USE ALL MY GPU MEMORY!!!
@@ -36,8 +43,10 @@ net_shape = (640, 640)
 data_format = 'NHWC'
 img_input = tf.placeholder(tf.uint8, shape=(None, None, 3))
 # Evaluation pre-processing: resize to SSD net shape.
-image_pre, labels_pre, bboxes_pre, bbox_img = ssd_vgg_preprocessing.preprocess_for_eval(
-    img_input, None, None, net_shape, data_format, resize=ssd_vgg_preprocessing.Resize.WARP_RESIZE)
+#image_pre, labels_pre, bboxes_pre, bbox_img = ssd_vgg_preprocessing.preprocess_for_eval(
+#    img_input, None, None, net_shape, data_format, resize=ssd_vgg_preprocessing.Resize.WARP_RESIZE)
+#image_4d = tf.expand_dims(image_pre, 0)
+image_pre,bbox_img = getter.TreateImage(img_input)
 image_4d = tf.expand_dims(image_pre, 0)
 
 # Define the SSD model.
