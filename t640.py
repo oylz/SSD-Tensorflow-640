@@ -72,7 +72,7 @@ ssd_anchors = ssd_net.anchors(net_shape)
 
 
 # Main image processing routine.
-def process_image(img, select_threshold=0.5, nms_threshold=.45, net_shape=(640, 640)):
+def process_image(img, select_threshold=0.8, nms_threshold=.45, net_shape=(640, 640)):
     # Run SSD network.
     rimg, rpredictions, rlocalisations, rbbox_img = isess.run(
                             [image_4d, predictions, localisations, bbox_img],
@@ -87,7 +87,8 @@ def process_image(img, select_threshold=0.5, nms_threshold=.45, net_shape=(640, 
                        img_shape=net_shape, 
                        num_classes=2, 
                        decode=True)
-    
+    print("[[[[rbboxes shape:", rbboxes.shape, "]]]]") 
+    #rbboxes = np.reshape(rbboxes, (-1, 4))
     rbboxes = np_methods.bboxes_clip(rbbox_img, rbboxes)
     rclasses, rscores, rbboxes = np_methods.bboxes_sort(rclasses, 
                                             rscores, 
@@ -141,7 +142,7 @@ path = './demo/'
 image_names = sorted(os.listdir(path))
 
 #pp =  path + image_names[-5]
-pp = "/home/xyz/code1/xyz/img1/000117.jpg"
+pp = "/home/xyz/code1/xyz/img1/000317.jpg"
 
 print("=======[[[[[[" + pp + "]]]]]]========")
 img = mpimg.imread(pp)

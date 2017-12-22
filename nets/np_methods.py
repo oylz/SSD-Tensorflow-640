@@ -15,10 +15,12 @@ def ssd_bboxes_decode(feat_localizations,
     l_shape = feat_localizations.shape
     print("l_shape[", l_shape, "]l_shape")
 
+    #feat_localizations = np.reshape(feat_localizations,
+    #                                (-1, l_shape[-2], l_shape[-1]))
     feat_localizations = np.reshape(feat_localizations,
-                                    (-1, l_shape[-2], l_shape[-1]))
+                                    (-1, 1, 4)) # xxxxxxxxxxxxxxxxxxxxxx
     print("feat_localizations new shape:", feat_localizations.shape)
-    print("anchors_layer", anchors_layer)
+    #print("anchors_layer", anchors_layer)
 
 
     yref, xref, href, wref = anchors_layer
@@ -63,6 +65,7 @@ def TreateBoxesCore(predictions_layer,
 
     ps = predictions_layer.shape
     print("predictions_layer first shape:", ps)
+    print("localizations_layer first shape:", localizations_layer.shape)
 
     # Reshape features to: Batches x N x N_labels | 4.
     p_shape = predictions_layer.shape
@@ -70,15 +73,21 @@ def TreateBoxesCore(predictions_layer,
     #xxxxxxxxxxxxxxxxxxxxxxxxxpredictions_layer = np.reshape(predictions_layer,
     #                               (batch_size, -1, p_shape[-1]))
     l_shape = localizations_layer.shape
+    print("l_shape:", l_shape)
+    ss = l_shape[-1]
+    #if l_shape[1] == 5:
+    #    ss = 2
+    ss = 1
     # nnnxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     predictions_layer = np.reshape(predictions_layer, 
-                                   (batch_size, -1, ps[1]*ps[2]))
+                                   (batch_size, ps[1]*ps[2], -1)) #p_shape[-1])) #ps[-1])) #xxxxxxxxxxx ps[1]*ps[2]))
     # uuuxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
     localizations_layer = np.reshape(localizations_layer,
-                                     (batch_size, -1, l_shape[-1]))
+                                     (batch_size, -1, l_shape[-1])) #p_shape[-1])) #ps[-1])) #xxxxxxxxx l_shape[-1]))
 
     print("predictions_layer second shape:", predictions_layer.shape)
+    print("localizations_layer second shape:", localizations_layer.shape)
 
 
     # Boxes selection: use threshold or score > no-label criteria.
@@ -103,10 +112,10 @@ def TreateBoxesCore(predictions_layer,
 def TreateBoxes(predictions_net,
                       localizations_net,
                       anchors_net,
-                      select_threshold=0.5,
-                      img_shape=(300, 300),
-                      num_classes=21,
-                      decode=True):
+                      select_threshold,
+                      img_shape,
+                      num_classes,
+                      decode):
     """Extract classes, scores and bounding boxes from network output layers.
 
     Return:

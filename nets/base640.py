@@ -156,9 +156,15 @@ def ssd_multibox_layer(addn,
 
     loc_pred = custom_layers.channel_to_last(loc_pred)
     print("====loc_pred1:", loc_pred)
-
+    tt0 = tensor_shape(loc_pred, 4)
+    print("====tt0:", tt0)
+    print("====tt0[:-1]:", tt0[:-1], ", num_anchors:", num_anchors)
+    #loc_pred = tf.reshape(loc_pred,
+    #                      tensor_shape(loc_pred, 4)[:-1]+[num_anchors, 4])
     loc_pred = tf.reshape(loc_pred,
-                          tensor_shape(loc_pred, 4)[:-1]+[num_anchors, 4])
+                          tt0[:-1]+[num_anchors, -1])
+
+
     print("====loc_pred2:", loc_pred)
 
     # Class prediction.
@@ -172,8 +178,10 @@ def ssd_multibox_layer(addn,
 
     tt = tensor_shape(cls_pred, 4)
     print("====tt:", tt)
+    #cls_pred = tf.reshape(cls_pred,
+    #                      tt[:-1]+[num_anchors+addn, num_classes])
     cls_pred = tf.reshape(cls_pred,
-                          tt[:-1]+[num_anchors+addn, num_classes])
+                          tt[:-1]+[num_anchors, -1])
     print("====cls_pred2:", cls_pred)
     print("uuuu------------end   ssd_multibox_layer----------uuuu")
     return cls_pred, loc_pred
