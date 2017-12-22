@@ -4,7 +4,8 @@ import numpy as np
 
 def ssd_bboxes_decode(feat_localizations,
                       anchors_layer,
-                      prior_scaling=[0.1, 0.1, 0.2, 0.2]):
+                      #prior_scaling=[0.1, 0.1, 0.2, 0.2]):
+                      prior_scaling=[.1, .1, .2, .2]):
     """Compute the relative bounding boxes from the layer features and
     reference anchor bounding boxes.
 
@@ -245,7 +246,8 @@ def bboxes_nms(classes, scores, bboxes, nms_threshold):
     for i in range(scores.size-1):
         if keep_bboxes[i]:
             # Computer overlap with bboxes which are following.
-            overlap = bboxes_jaccard(bboxes[i], bboxes[(i+1):])
+            #overlap = bboxes_jaccard(bboxes[i], bboxes[(i+1):])
+            overlap = bboxes_intersection(bboxes[i], bboxes[(i+1):])
             # Overlap threshold for keeping + checking part of the same class
             keep_overlap = np.logical_or(overlap < nms_threshold, classes[(i+1):] != classes[i])
             keep_bboxes[(i+1):] = np.logical_and(keep_bboxes[(i+1):], keep_overlap)

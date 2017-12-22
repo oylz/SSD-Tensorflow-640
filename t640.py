@@ -64,7 +64,7 @@ ssd_anchors = ssd_net.anchors(net_shape)
 
 
 # Main image processing routine.
-def process_image(img, select_threshold=0.6, nms_threshold=.30, net_shape=(640, 640)):
+def process_image(img, select_threshold=0.05, nms_threshold=.30, net_shape=(640, 640)):
     # Run SSD network.
     
     #rimg, rpredictions, rlocalisations = isess.run(
@@ -109,6 +109,9 @@ def plt_bboxes(img, classes, scores, bboxes, figsize=(10,10), linewidth=1.5):
         cls_id = int(classes[i])
         if cls_id >= 0:
             score = scores[i]
+            if cls_id!=1 or score<0.6:
+                continue
+
             if cls_id not in colors:
                 colors[cls_id] = (random.random(), random.random(), random.random())
             ymin = int(bboxes[i, 0] * height)
@@ -140,6 +143,7 @@ pp = "/home/xyz/code1/xyz/img1/000417.jpg"
 print("=======[[[[[[" + pp + "]]]]]]========")
 img = mpimg.imread(pp)
 
+#dimg = getter.TreateImage(img)
 rclasses, rscores, rbboxes =  process_image(img)
 
 print("***************rbboxes[", rbboxes, "]*****************")

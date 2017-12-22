@@ -59,8 +59,8 @@ def TreateImage(image, data_format='NHWC', scope='ssd_preprocessing_train'):
 
 
         # Image data format.
-        #if data_format == 'NCHW':
-        #    image = tf.transpose(image, perm=(2, 0, 1))
+        if data_format == 'NCHW':
+            image = tf.transpose(image, perm=(2, 0, 1))
         return image
 
 
