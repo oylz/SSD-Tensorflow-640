@@ -56,9 +56,11 @@ def TreateImage(image, data_format='NHWC', scope='ssd_preprocessing_train'):
         image = tf_image.resize_image(image, out_shape,
                                       method=tf.image.ResizeMethod.BILINEAR,
                                       align_corners=False)
+
+
         # Image data format.
-        if data_format == 'NCHW':
-            image = tf.transpose(image, perm=(2, 0, 1))
+        #if data_format == 'NCHW':
+        #    image = tf.transpose(image, perm=(2, 0, 1))
         bboxes = tf.constant([[0., 0., 1., 1.]])
 	bbox_img = bboxes[0]
         return image,bbox_img
