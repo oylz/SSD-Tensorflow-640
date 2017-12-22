@@ -15,10 +15,10 @@ def ssd_bboxes_decode(feat_localizations,
     l_shape = feat_localizations.shape
     print("l_shape[", l_shape, "]l_shape")
 
-    #feat_localizations = np.reshape(feat_localizations,
-    #                                (-1, l_shape[-2], l_shape[-1]))
     feat_localizations = np.reshape(feat_localizations,
-                                    (-1, 1, 4)) # xxxxxxxxxxxxxxxxxxxxxx
+                                    (-1, l_shape[-2], l_shape[-1]))
+    #feat_localizations = np.reshape(feat_localizations,
+    #                                (-1, 1, 4)) # xxxxxxxxxxxxxxxxxxxxxx
     print("feat_localizations new shape:", feat_localizations.shape)
     #print("anchors_layer", anchors_layer)
 
@@ -32,10 +32,10 @@ def ssd_bboxes_decode(feat_localizations,
     cy = feat_localizations[:, :, 1] * href * prior_scaling[1] + yref
     w = wref * np.exp(feat_localizations[:, :, 2] * prior_scaling[2])
     h = href * np.exp(feat_localizations[:, :, 3] * prior_scaling[3])
-    print("cx[", cx.shape, cx, "]")
-    print("cy[", cy.shape, cy, "]")
-    print("w[", w.shape, w, "]")
-    print("h[", h.shape, h, "]")
+    print("cx[", cx.shape) #, cx, "]")
+    print("cy[", cy.shape) #, cy, "]")
+    print("w[", w.shape) #, w, "]")
+    print("h[", h.shape) #, h, "]")
     # bboxes: ymin, xmin, xmax, ymax.
     bboxes = np.zeros_like(feat_localizations)
     bboxes[:, :, 0] = (cy - h / 2.) 
@@ -74,10 +74,6 @@ def TreateBoxesCore(predictions_layer,
     #                               (batch_size, -1, p_shape[-1]))
     l_shape = localizations_layer.shape
     print("l_shape:", l_shape)
-    ss = l_shape[-1]
-    #if l_shape[1] == 5:
-    #    ss = 2
-    ss = 1
     # nnnxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     predictions_layer = np.reshape(predictions_layer, 
                                    (batch_size, ps[1]*ps[2], -1)) #p_shape[-1])) #ps[-1])) #xxxxxxxxxxx ps[1]*ps[2]))
@@ -150,7 +146,7 @@ def TreateBoxes(predictions_net,
 # =========================================================================== #
 # Common functions for bboxes handling and selection.
 # =========================================================================== #
-def bboxes_sort(classes, scores, bboxes, top_k=400):
+def bboxes_sort(classes, scores, bboxes, top_k=5000):
     """Sort bounding boxes by decreasing order and keep only the top_k
     """
     # if priority_inside:
