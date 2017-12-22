@@ -22,7 +22,7 @@ import tf_extended as tfe
 
 from tensorflow.python.ops import control_flow_ops
 
-from preprocessing import tf_image
+from util import tf_image
 
 slim = tf.contrib.slim
 
