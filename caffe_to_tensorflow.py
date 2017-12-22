@@ -1,22 +1,12 @@
-"""Convert a Caffe model file to TensorFlow checkpoint format.
 
-Assume that the network built is a equivalent (or a sub-) to the Caffe
-definition.
-"""
+
 import tensorflow as tf
 
 from nets import caffe_scope
-from nets import nets_factory
+from nets import ssd_vgg_640
 
 slim = tf.contrib.slim
 
-# =========================================================================== #
-# Main flags.
-# =========================================================================== #
-tf.app.flags.DEFINE_string(
-    'model_name', 'ssd_640_vgg', 'Name of the model to convert.')
-tf.app.flags.DEFINE_string(
-    'num_classes', 21, 'Number of classes in the dataset.')
 tf.app.flags.DEFINE_string(
     'caffemodel_path', None,
     'The path to the Caffe model file to convert.')
@@ -24,9 +14,6 @@ tf.app.flags.DEFINE_string(
 FLAGS = tf.app.flags.FLAGS
 
 
-# =========================================================================== #
-# Main converting routine.
-# =========================================================================== #
 def main(_):
     # Caffe scope...
     caffemodel = caffe_scope.CaffeScope()
@@ -35,12 +22,8 @@ def main(_):
     tf.logging.set_verbosity(tf.logging.INFO)
     with tf.Graph().as_default():
         global_step = slim.create_global_step()
-        num_classes = int(FLAGS.num_classes)
 
-        # Select the network.
-        ssd_class = nets_factory.get_network(FLAGS.model_name)
-        ssd_params = ssd_class.default_params._replace(num_classes=num_classes)
-        ssd_net = ssd_class(ssd_params)
+        ssd_net = ssd_vgg_640.SSDNet()
         ssd_shape = ssd_net.params.img_shape
 
         # Image placeholder and model.

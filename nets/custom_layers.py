@@ -1,22 +1,4 @@
-# Copyright 2015 Paul Balanca. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ==============================================================================
-"""Implement some custom layers, not provided by TensorFlow.
 
-Trying to follow as much as possible the style/standards used in
-tf.contrib.layers
-"""
 import tensorflow as tf
 
 from tensorflow.contrib.framework.python.ops import add_arg_scope
@@ -29,14 +11,6 @@ from tensorflow.python.ops import variable_scope
 
 
 def abs_smooth(x):
-    """Smoothed absolute function. Useful to compute an L1 smooth error.
-
-    Define as:
-        x^2 / 2         if abs(x) < 1
-        abs(x) - 0.5    if abs(x) > 1
-    We use here a differentiable definition using min(x) and abs(x). Clearly
-    not optimal, but good enough for our purpose!
-    """
     absx = tf.abs(x)
     minx = tf.minimum(absx, 1)
     r = 0.5 * ((absx - 1) * minx + absx)

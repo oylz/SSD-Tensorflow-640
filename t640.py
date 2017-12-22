@@ -18,14 +18,12 @@ sys.path.append('../')
 
 from nets import ssd_vgg_640, np_methods
 from preprocessing import ssd_vgg_preprocessing
-#from notebooks import visualization
 import cv2
 import random
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import matplotlib.cm as mpcm
-from nets import nets_factory
 
 
 # TensorFlow session: grow memory when needed. TF, DO NOT USE ALL MY GPU MEMORY!!!
@@ -45,17 +43,10 @@ image_4d = tf.expand_dims(image_pre, 0)
 # Define the SSD model.
 reuse = True if 'ssd_net' in locals() else None
 ssd_net = ssd_vgg_640.SSDNet()
-#ssd_class = nets_factory.get_network("ssd_640_vgg")
-#ssd_params = ssd_class.default_params._replace(num_classes=2)
-#ssd_net = ssd_class(ssd_params)
-#ssd_shape = ssd_net.params.img_shape
-#shape = (1, ssd_shape[0], ssd_shape[1], 3)
-#img_input = tf.placeholder(shape=shape, dtype=tf.float32)
 
 print("+++++++++++++++++++++++++++++++++++++")
 with slim.arg_scope(ssd_net.arg_scope(data_format=data_format)):
     predictions, localisations, _, _ = ssd_net.net(image_4d, is_training=False, reuse=reuse)
-    #predictions, localisations, _, _ = ssd_net.net(img_input, is_training=False)
 
 print("======================mmmmmmmmmmmmmmmmmmmmm==========")
 # Restore SSD model.
@@ -149,7 +140,6 @@ img = mpimg.imread(pp)
 
 rclasses, rscores, rbboxes =  process_image(img)
 
-# visualization.bboxes_draw_on_img(img, rclasses, rscores, rbboxes, visualization.colors_plasma)
 plt_bboxes(img, rclasses, rscores, rbboxes)
 
 
