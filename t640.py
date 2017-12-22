@@ -50,7 +50,7 @@ with slim.arg_scope(ssd_net.arg_scope(data_format=data_format)):
 
 print("======================mmmmmmmmmmmmmmmmmmmmm==========")
 # Restore SSD model.
-ckpt_filename = './tmp640/SFD.ckpt'
+ckpt_filename = './tt/tmp640/SFD.ckpt'
 isess.run(tf.global_variables_initializer())
 saver = tf.train.Saver()
 saver.restore(isess, ckpt_filename)
