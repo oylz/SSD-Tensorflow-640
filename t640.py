@@ -17,7 +17,7 @@ import sys
 sys.path.append('../')
 
 from nets import ssd_vgg_640, np_methods
-from preprocessing import ssd_vgg_preprocessing
+from util import ssd_vgg_preprocessing
 import cv2
 import random
 
