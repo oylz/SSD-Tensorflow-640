@@ -67,8 +67,12 @@ ssd_anchors = ssd_net.anchors(net_shape)
 def process_image(img, select_threshold=0.6, nms_threshold=.30, net_shape=(640, 640)):
     # Run SSD network.
     
-    rimg, rpredictions, rlocalisations = isess.run(
-                            [image_4d, predictions, localisations],
+    #rimg, rpredictions, rlocalisations = isess.run(
+    #                        [image_4d, predictions, localisations],
+    #                        feed_dict={img_input: img})
+
+    rpredictions, rlocalisations = isess.run(
+                            [predictions, localisations],
                             feed_dict={img_input: img})
 
     # TreateBoxes
@@ -84,7 +88,7 @@ def process_image(img, select_threshold=0.6, nms_threshold=.30, net_shape=(640, 
     rclasses, rscores, rbboxes = np_methods.bboxes_sort(rclasses, 
                                             rscores, 
                                             rbboxes, 
-                                            top_k=5000)
+                                            top_k=400)
     rclasses, rscores, rbboxes = np_methods.bboxes_nms(rclasses, 
                                             rscores, 
                                             rbboxes, 
@@ -138,6 +142,7 @@ img = mpimg.imread(pp)
 
 rclasses, rscores, rbboxes =  process_image(img)
 
+print("***************rbboxes[", rbboxes, "]*****************")
 plt_bboxes(img, rclasses, rscores, rbboxes)
 
 

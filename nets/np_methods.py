@@ -146,7 +146,7 @@ def TreateBoxes(predictions_net,
 # =========================================================================== #
 # Common functions for bboxes handling and selection.
 # =========================================================================== #
-def bboxes_sort(classes, scores, bboxes, top_k=5000):
+def bboxes_sort(classes, scores, bboxes, top_k):
     """Sort bounding boxes by decreasing order and keep only the top_k
     """
     # if priority_inside:
@@ -238,7 +238,7 @@ def bboxes_intersection(bboxes_ref, bboxes2):
     return score
 
 
-def bboxes_nms(classes, scores, bboxes, nms_threshold=0.45):
+def bboxes_nms(classes, scores, bboxes, nms_threshold):
     """Apply non-maximum selection to bounding boxes.
     """
     keep_bboxes = np.ones(scores.shape, dtype=np.bool)
@@ -254,10 +254,6 @@ def bboxes_nms(classes, scores, bboxes, nms_threshold=0.45):
     return classes[idxes], scores[idxes], bboxes[idxes]
 
 
-def bboxes_nms_fast(classes, scores, bboxes, threshold=0.45):
-    """Apply non-maximum selection to bounding boxes.
-    """
-    pass
 
 
 
