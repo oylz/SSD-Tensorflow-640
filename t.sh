@@ -11,7 +11,7 @@ echo "PYTHONPATH:"$PYTHONPATH
 
 
 
-python t640.py > t640.txt 2>&1
+python t640.py > tt/t640.txt 2>&1
 
 
 

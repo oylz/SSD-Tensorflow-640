@@ -17,7 +17,7 @@ function D2(){
 python caffe_to_tensorflow.py \
 --model_name=ssd_640_vgg \
 --num_classes=2 \
---caffemodel_path=./tmp640/SFD.caffemodel > tmp640.txt 2>&1
+--caffemodel_path=./tt/tmp640/SFD.caffemodel > tt/tmp640.txt 2>&1
 }
 
 
