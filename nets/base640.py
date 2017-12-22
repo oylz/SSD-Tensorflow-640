@@ -10,8 +10,8 @@ from nets import custom_layers
 slim = tf.contrib.slim
 
 
-# only used in flow function:ssd_anchors_all_layers(), final for outapp to detect
-def ssd_anchor_one_layer(img_shape,
+# only used in flow function:AnchorAllLayers(), final for outapp to detect
+def AnchorOneLayer(img_shape,
                          feat_shape,
                          anchor_size,
                          anchor_step,
@@ -24,7 +24,7 @@ def ssd_anchor_one_layer(img_shape,
     y = np.expand_dims(y, axis=-1)
     x = np.expand_dims(x, axis=-1)
 
-    num_anchors = 1 #xxxxxxxx1 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxx len(sizes) + len(ratios)
+    num_anchors = 1 
     h = np.zeros((num_anchors, ), dtype=dtype)
     w = np.zeros((num_anchors, ), dtype=dtype)
     print("onelayer0----anchor_size", anchor_size)
@@ -38,7 +38,7 @@ def ssd_anchor_one_layer(img_shape,
     return y, x, h, w
 
 # only used in SSDNet.anchors(),final for outapp to detect
-def ssd_anchors_all_layers(img_shape,
+def AnchorAllLayers(img_shape,
                            feat_shapes,
                            anchor_sizes,
                            anchor_steps,
@@ -46,7 +46,7 @@ def ssd_anchors_all_layers(img_shape,
                            dtype):
     layers_anchors = []
     for i, feat_shape in enumerate(feat_shapes):
-        anchor_bboxes = ssd_anchor_one_layer(img_shape, 
+        anchor_bboxes = AnchorOneLayer(img_shape, 
                                              feat_shape,
                                              anchor_sizes[i],
                                              anchor_steps[i],
@@ -73,7 +73,7 @@ def FeatShapesFromNet(predictions, default_shapes):
             feat_shapes.append(shape)
     return feat_shapes
 
-# only used in ssd_multibox_layer
+# only used in MultiboxLayer
 def tensor_shape(x, rank=3):
     if x.get_shape().is_fully_defined():
         return x.get_shape().as_list()
@@ -84,14 +84,14 @@ def tensor_shape(x, rank=3):
                 for s, d in zip(static_shape, dynamic_shape)]
 
 # only used in ssd_net
-def ssd_multibox_layer(addn, 
+def MultiboxLayer(addn, 
                        inputs,
                        num_classes,
                        is_normalization):
     net = inputs
     if is_normalization > 0:
         net = custom_layers.l2_normalization(net, scaling=True)
-    print("nnnn------------begin ssd_multibox_layer----------nnnn")
+    print("nnnn------------begin MultiboxLayer----------nnnn")
 
     num_loc_pred = 4 # [4] no used if caffe convert.
     loc_pred = slim.conv2d(net, num_loc_pred, [3, 3], activation_fn=None,
@@ -124,7 +124,7 @@ def ssd_multibox_layer(addn,
     cls_pred = tf.reshape(cls_pred,
                           tt[:-1]+[num_anchors, -1])
     print("====cls_pred2:", cls_pred)
-    print("uuuu------------end   ssd_multibox_layer----------uuuu")
+    print("uuuu------------end   MultiboxLayer----------uuuu")
     return cls_pred, loc_pred
 
 # only used in SSDNet.net(), and extend for nets_factory
@@ -224,7 +224,7 @@ def ssd_net(inputs,
         for i, layer in enumerate(feat_layers):
             with tf.variable_scope(layer + '_box'):
                 print("nnnn-begin process----" + layer + '_box')
-                p, l = ssd_multibox_layer(addn, 
+                p, l = MultiboxLayer(addn, 
                                           end_points[layer],
                                           num_classes,
                                           normalizations[i])

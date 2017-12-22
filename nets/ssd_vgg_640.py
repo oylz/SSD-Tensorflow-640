@@ -79,7 +79,7 @@ class SSDNet(object):
 
     # for outapp to detect
     def anchors(self, img_shape, dtype=np.float32):
-        return base640.ssd_anchors_all_layers(img_shape,
+        return base640.AnchorAllLayers(img_shape,
                                       self.params.feat_shapes,
                                       self.params.anchor_sizes,
                                       self.params.anchor_steps,
